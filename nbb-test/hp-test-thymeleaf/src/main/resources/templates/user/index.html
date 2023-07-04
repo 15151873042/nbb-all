@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:mo="https://gitee.com/aun/Timo">
+<head th:replace="common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body class="timo-layout-page">
+<div class="layui-card">
+
+  <div class="layui-card-body">
+    <div class="layui-row timo-card-screen put-row">
+      <div class="pull-left layui-form-pane">
+        <form id="searchForm">
+          <div class="layui-inline">
+            <button class="layui-btn timo-search-btn"><i class="fa fa-search"></i> 查询</button>
+          </div>
+        </form>
+      </div>
+      <div class="pull-right layui-form-pane">
+
+        <div class="btn-group-right">
+          <button class="layui-btn open-popup" data-title="添加用户" data-size="auto" data-url="/sysUser/add">
+            <i class="fa fa-plus"></i> 添加
+          </button>
+
+        </div>
+      </div>
+    </div>
+    <div class="timo-table-wrap">
+      <table class="layui-table timo-table" id="dataTable">
+        <thead>
+        <tr>
+          <th width="40px" data-field="[index]">序号</th>
+          <th class="sortable" data-field="name" data-style="style='text-align:left'">姓名</th>
+          <th class="sortable" data-field="age" data-style="style='text-align:left'">年龄</th>
+          <th data-event="format">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div id="tablePage" style="text-align:right"></div>
+  </div>
+</div>
+<script th:replace="common/template :: script"></script>
+
+<script type="text/javascript">
+
+  function format(index, item) {
+    var edit = "<a class=\"open-popup\" data-title=\"编辑用户\" data-url=\"/sysUser/edit/" + item['id'] + "\"  data-size=\"auto\" href=\"#\">编辑</a>";
+    var detail = "<a class=\"open-popup\" data-title=\"用户详细信息\" data-url=\"/sysUser/detail/" + item['id'] + "\"  data-size=\"auto\" href=\"#\">详细</a>";
+    var del = "<a class=\"ajax-post\" data-trigger=\"callback\" data-title=\"请确定是否删除用户\" data-url=\"/sysUser/remove?ids=" + item['id'] + "\"  href=\"#\">删除</a>";
+    return edit + detail + del;
+  }
+
+  //添加操作，删除操作回调函数
+  function callback() {
+    $(".timo-search-btn").trigger("click");
+  }
+
+  layui.use(['element', 'laydate', 'table', 'laypage'], function () {
+    var isfirst = true;
+    var pageNum = 1;
+    var pageSize = 10;
+    $(".timo-search-btn").click(function (e) {
+      e.preventDefault();
+      var form = $("#searchForm");
+      var data = js.getFormData(form);
+
+
+      js.pageSearch(pageNum, pageSize, isfirst, {
+        url: "/sysUser/list",
+        type: "post",
+        data: data,
+        tableEl: "#dataTable",
+        jump: function (obj, first) {
+          pageSize = obj.limit;
+        }
+      });
+    })
+    $(".timo-search-btn").trigger("click");
+  });
+</script>
+</body>
+</html>

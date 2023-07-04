@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+<div class="layui-form timo-compile">
+  <form th:action="@{/sysUser/add}" id="postForm">
+    <input type="hidden" name="id" th:value="${sysUser.id}"/>
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-inline">
+        <input class="layui-input" type="text" name="name" placeholder="请输入姓名" th:value="${sysUser.name}">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">年龄</label>
+      <div class="layui-input-inline">
+        <input class="layui-input" type="text" name="age" placeholder="请输入年龄" th:value="${sysUser.age}">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layer-footer-panel">
+        <button class="layui-btn ajax-submit"><i class="fa fa-check-circle"></i> 保存</button>
+        <button class="layui-btn btn-secondary close-popup"><i class="fa fa-times-circle"></i> 关闭</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script th:replace="common/template :: script"></script>
+<script th:replace="common/template :: valid"></script>
+<script type="text/javascript">
+
+  layui.use(['element', 'laydate', 'form'], function () {
+    var url = "/sysUser/edit";
+    if ("[[${type}]]" == "add") {
+      url = "/sysUser/add";
+    }
+    $(".ajax-submit").click(function (e) {
+      e.preventDefault();
+      var form = $("#postForm");
+      //添加表单校验
+      var flag = $(form).valid();
+      if (!flag) return;
+
+      var data = js.getFormData(form);
+      js.ajaxReq({
+        url: url,
+        data: data,
+        type: "post",
+        success: function (result) {
+          if (result.code == 0) {
+            js.showSuccessMessage(result.msg);
+            $(".close-popup").trigger("click");
+            window.parent.callback();
+          } else {
+            js.showErrorMessage(result.msg);
+          }
+        }
+      })
+    })
+  });
+</script>
+</body>
+</html>

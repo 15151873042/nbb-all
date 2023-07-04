@@ -1,0 +1,23 @@
+server:
+  port: 8200
+
+
+dubbo:
+  #Dubbo服务暴露的协议配置，其中子属性name为协议名称，port为协议端口（-1 表示自增端口，从 20880 开始）
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    #Dubbo服务注册中心的配置地址，它的值spring-cloud://xxxx表示挂载到Spring Cloud注册中心，不配置的话会提示没有配置注册中心的错误。
+    address: spring-cloud://127.0.0.1:8848?username=nacos&password=nacos
+
+spring:
+  application:
+    name: dubbo-sample-provider-2
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+        namespace: dubbo

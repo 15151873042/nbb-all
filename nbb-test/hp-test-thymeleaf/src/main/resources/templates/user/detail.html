@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/template :: header(~{::title},~{::link},~{::style})">
+</head>
+<body>
+<div class="timo-detail-page">
+  <div class="timo-detail-title">岗位详细信息</div>
+  <table class="layui-table timo-detail-table">
+    <colgroup>
+      <col width="100px">
+      <col>
+      <col width="100px">
+      <col>
+    </colgroup>
+
+    <tr>
+      <th width='100px'>用户id</th>
+      <td th:text="${sysUser.id}"></td>
+
+      <th width='100px'>用户姓名</th>
+      <td th:text="${sysUser.name}"></td>
+    </tr>
+
+    <tr>
+      <th width='100px'>用户年龄</th>
+      <td th:text="${sysUser.age}"></td>
+      <th width='100px'></th>
+      <td></td>
+    </tr>
+
+  </table>
+</div>
+<script th:replace="common/template :: script"></script>
+</body>
+</html>

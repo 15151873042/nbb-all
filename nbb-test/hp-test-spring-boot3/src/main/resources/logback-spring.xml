@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
+
+    <!-- 日志输出格式 -->
+    <property name="log.pattern"
+              value="%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n"></property>
+    <!-- 日志最大保留天数 -->
+    <property name="log.max_history" value="30"></property>
+    <!-- 日志文件最大的大小 -->
+    <property name="log.max_size" value="500MB"></property>
+
+    <!-- 日志输出位置:控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 定义spring的输入级别为info， 此配置优先于root， 即使root中设置全局输出级别为debug，spring也只会输出info -->
+    <logger name="org.hp.springboot3.mapper">
+        <level value="debug" />
+    </logger>
+
+    <root>
+        <!-- 定义通用包（根）的日志输出级别 -->
+        <level value="info"/>
+        <!-- 需要输出到哪些位置 -->
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
