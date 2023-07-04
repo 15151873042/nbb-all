@@ -1,0 +1,35 @@
+server:
+    port: 8100
+
+# sa-token配置
+sa-token:
+    # SSO-相关配置
+    sso:
+        # sso-server端 统一认证地址（前端地址）
+        auth-url: http://sso-server.com:9000/login
+        # sso-server端 ticket校验地址（后端地址）
+        check-ticket-url: http://127.0.0.1:9100/checkTicket
+        # sso-server端 查询用户信息地址（后端地址）
+        userinfo-url: http://127.0.0.1:9100/userInfo
+        # sso-server端单点注销地址（后端地址）
+        slo-url: http://127.0.0.1:9100/signout
+        # sso-server单点注销回调本服务的地址
+        ssoLogoutCall: http://sso-client.com:8100/sso/logoutCall
+        # 是否打开单点注销接口
+        is-slo: true
+        # 使用 Http 请求校验ticket (模式三)
+        is-http: true
+        # API 接口调用秘钥
+        secretkey: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor
+    # 是否尝试从 cookie 里读取 Token，此值为 false 后，StpUtil.login(id) 登录时也不会再往前端注入Cookie
+    is-read-cookie: false
+
+
+spring:
+    # redis配置
+    redis:
+        database: 14
+        host: 127.0.0.1
+        port: 6379
+        password: root
+        timeout: 10s

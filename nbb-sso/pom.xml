@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>nbb-sso-server</module>
+        <module>nbb-sso-client</module>
     </modules>
 
     <properties>

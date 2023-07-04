@@ -31,11 +31,11 @@ public class SaTokenConfigure implements WebMvcConfigurer, SmartInitializingSing
     }
 
 
-    @Autowired
-    private SaTokenDaoRedisJackson saTokenDaoRedisJackson;
+//    @Autowired
+//    private SaTokenDaoRedisJackson saTokenDaoRedisJackson;
     @Override
     public void afterSingletonsInstantiated() {
-        // 取消对象json序列化时候，添加类信息，不然存入redis的类修改包名或类名，反序列化会报错
-        saTokenDaoRedisJackson.objectMapper.deactivateDefaultTyping();
+//        // 取消对象json序列化时候，添加类信息，不然存入redis的类修改包名或类名，反序列化会报错
+//        saTokenDaoRedisJackson.objectMapper.deactivateDefaultTyping();
     }
 }
