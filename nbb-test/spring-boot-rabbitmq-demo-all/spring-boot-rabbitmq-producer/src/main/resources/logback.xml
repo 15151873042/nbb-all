@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
+    <!-- 自定义属性 -->
+    <!-- 日志输出格式 -->
+    <property name="log.pattern" value="%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n"></property>
+    <!-- 日志输出位置 -->
+    <property name="log.home_dir" value="d:/logs"></property>
+    <!-- 日志最大保留天数 -->
+    <property name="log.max_history" value="30"></property>
+    <!-- 日志文件最大的大小 -->
+    <property name="log.max_size" value="500MB"></property>
+
+    <property name="log.file.all.name" value="rabbitmq-productor"></property>
+    <property name="log.file.error.name" value="rabbitmq-productor-error"></property>
+
+    <!-- 日志输出位置:控制台 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 过滤器，过滤掉不是指定日志水平的日志 -->
+            <level>DEBUG</level>
+        </filter>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+
+
+
+    <!-- 日志输出位置:磁盘（包含所有级别） -->
+    <appender name="file-all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${log.home_dir}/${log.file.all.name}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home_dir}/${log.file.all.name}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>${log.max_size}</maxFileSize>
+            <maxHistory>${log.max_history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 日志输出位置:磁盘（只包含错误级别） -->
+    <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>${log.home_dir}/${log.file.error.name}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home_dir}/${log.file.error.name}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>${log.max_size}</maxFileSize>
+            <maxHistory>${log.max_history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 定义指定包的日志输出级别 -->
+	<logger name="ch.qos.logback">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.apache">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.mybatis.spring">
+		<level value="warn" />
+	</logger>
+
+	<logger name="com.alibaba.druid">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.springframework.jdbc.datasource">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mybatis.spring.SqlSessionUtils">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="cn.gotten">
+		<level value="debug" />
+	</logger>
+
+	<root>
+        <!-- 定义通用包（根）的日志输出级别 -->
+		<level value="debug" />
+		<!-- 需要输出到哪些位置 -->
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="file-all" />
+		<appender-ref ref="file-error" />
+	</root>
+</configuration>

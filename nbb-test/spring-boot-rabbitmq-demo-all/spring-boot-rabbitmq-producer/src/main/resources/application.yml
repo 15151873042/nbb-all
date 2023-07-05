@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: rabbitmq-producer
+  rabbitmq:
+    host: 127.0.0.1
+    prot: 5672
+    username: dev
+    password: dev
+    virtual-host: /dev
+    # 设置confirm回调
+    publisher-confirm-type: correlated
+    # 设置return回调，默认false，感觉没必要配置
+    publisher-returns: true
