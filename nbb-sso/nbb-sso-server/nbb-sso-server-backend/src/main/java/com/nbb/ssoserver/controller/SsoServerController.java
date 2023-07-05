@@ -29,41 +29,20 @@ public class SsoServerController {
 
     /**
      * 生成ticket
+     *
      * <p>校验重定向地址，生成ticket</p>
-     * @param redirect
-     * @return
-     */
-    @RequestMapping("/createTicket")
-    public SaResult getTicket(String redirect) {
-        if (StpUtil.isLogin() == false) {
-            // FIXME 注意此处不要返回401，因为前端axios全局拦截401，然后跳转到登录页，而在登录页加载之前会调用此接口，这样会死循环
-            return SaResult.code(402).setMsg("用户未登录");
-        }
-
-        // 没有重定向地址，则直接去首页
-        if (StringUtils.isEmpty(redirect)) {
-            return SaResult.data("/index");
-        }
-
-        String redirectUrl = SaSsoUtil.buildRedirectUrl(StpUtil.getLoginId(), null, redirect);
-        return SaResult.data(redirectUrl);
-    }
-
-
-    /**
-     * 构建重定向地址
+     * <b>传入redirect地址，对地址进行白名单校验，通过则创建ticket</b>
+     * <br/>
      * <pre>
      * 用户未登录，返回code码402
      * 用户已登录，构建并返回重定向地址
-     * 重定向地址示例：http://www.jd.com?ticket=AxdRG5QyYswCMYboiLgGVz2un8WzIJo0FHxjgNaF3TRkNO8HsxwGopSrYzA72isM
+     * 重定向地址示例：http://sso-client.com?ticket=AxdRG5QyYswCMYboiLgGVz2un8WzIJo0FHxjgNaF3TRkNO8HsxwGopSrYzA72isM
      * </pre>
-
-     * @param redirect 重定向地址
+     * @param redirect 下发ticket的sso-client端的回调地址
      * @return 携带ticket参数的重定向地址
-     *
      */
-    @RequestMapping("/buildRedirectUrl")
-    public SaResult buildRedirectUrlWithTicket(String redirect) {
+    @RequestMapping("/createTicket")
+    public SaResult createTicket(String redirect) {
         if (StpUtil.isLogin() == false) {
             // FIXME 注意此处不要返回401，因为前端axios全局拦截401，然后跳转到登录页，而在登录页加载之前会调用此接口，这样会死循环
             return SaResult.code(402).setMsg("用户未登录");
@@ -80,8 +59,8 @@ public class SsoServerController {
 
     /**
      * 登录API接口
-     * @param dto
-     * @return
+     * @param dto 用户名密码
+     * @return 空
      */
     @RequestMapping("/doLogin")
     public SaResult doLogin(@RequestBody LoginDTO dto) {
@@ -111,15 +90,11 @@ public class SsoServerController {
         return SaResult.error("用户名或密码错误");
     }
 
-    /***
-     * sso-server：校验ticket，获取登录用户id
-     * 校验ticket的时候会将注释回调client的地址存放在user session中
-     */
 
     /**
      * 校验ticket
      * <pre>
-     * 请求url示例：/checkTicket?ticket=ZiGNDdNyDCpWXFYB2GRne5QlarZ3VSqxlvRNfQvt9sSdFjk7ELgRruZ6EhvUrD8B&ssoLogoutCall=http://sso-client.com:8100/sso/logoutCall
+     * 请求url示例：http://sso-server.com:9100/checkTicket?ticket=ZiGNDdNyDCpWXFYB2GRne5QlarZ3VSqxlvRNfQvt9sSdFjk7ELgRruZ6EhvUrD8B&ssoLogoutCall=http://sso-client.com:8100/sso/logoutCall
      * </pre>
      * @return 登录用户id
      */
@@ -133,7 +108,7 @@ public class SsoServerController {
     /**
      * 单点注销
      * <pre>
-     *     sso-client后端使用api调用示例：http://sa-sso-server.com:9100/signout?loginId=user_id_001&timestamp=1688049751397&nonce=CM8s16hpsvqm0hc3B06w&sign=950823e0a47006c16d440c03fb14f1e9
+     *     sso-client后端使用api调用示例：http://sso-server.com:9100/signout?loginId=user_id_001&timestamp=1688049751397&nonce=CM8s16hpsvqm0hc3B06w&sign=950823e0a47006c16d440c03fb14f1e9
      * </pre>
      * @return
      */
@@ -144,7 +119,7 @@ public class SsoServerController {
 
     /**
      * 获取用户信息（包含权限信息）
-     * @return
+     * @return 当前登录用户信息
      */
     @RequestMapping("/userInfo")
     public Object userInfo() {

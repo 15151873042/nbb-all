@@ -22,6 +22,7 @@ public class SaTokenConfigure implements WebMvcConfigurer, SmartInitializingSing
             SaRouter.match("/**")
                     .notMatch("/doLogin") // 登录
                     .notMatch("/buildRedirectUrl") // 构建重定向地址，携带ticket参数
+                    .notMatch("/createTicket") // 创建ticket
                     .notMatch("/checkTicket") // 校验ticket
                     .notMatch("/signout") // 注销
                     .notMatch("/userInfo") // 获取登录用户信息

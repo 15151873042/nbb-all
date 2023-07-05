@@ -1,6 +1,6 @@
 <template>
-  <div>
-    首页
+  <div class="main">
+    <h2>SSO-SERVER 认证中心 首页</h2>
     <el-button size="medium" type="primary" @click="signout">登出</el-button>
   </div>
 </template>
@@ -39,3 +39,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.main {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
+  align-items: center;
+  height: 100%;
+}
+</style>

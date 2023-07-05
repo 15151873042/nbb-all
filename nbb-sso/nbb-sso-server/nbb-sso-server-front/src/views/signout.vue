@@ -4,8 +4,7 @@
 
 <script>
 
-import {buildRedirectUrl, doLogin, signout} from "../api/login";
-import {isNotBlank} from "@/utils/ruoyi";
+import {signout} from "../api/login";
 
 export default {
   name: "Signout", // 单点登出页面

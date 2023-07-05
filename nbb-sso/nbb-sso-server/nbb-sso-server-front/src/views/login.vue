@@ -8,8 +8,9 @@
             type="text"
             auto-complete="off"
             placeholder="账号"
+            prefix-icon="el-icon-user"
         >
-<!--          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />-->
+          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -19,8 +20,8 @@
             auto-complete="off"
             placeholder="密码"
             @keyup.enter.native="handleLogin"
+            prefix-icon="el-icon-lock"
         >
-<!--          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />-->
         </el-input>
       </el-form-item>
       <el-form-item style="width:100%;">
@@ -48,7 +49,7 @@
 
 <script>
 
-import {buildRedirectUrl, doLogin} from "../api/login";
+import {createTicket, doLogin} from "../api/login";
 import {isNotBlank} from "@/utils/ruoyi";
 import {setToken} from "@/utils/auth";
 
@@ -89,16 +90,15 @@ export default {
     };
   },
 
-  created() {
-    this.buildRedirectUrlWithTicket()
+  mounted() {
+    this.init()
   },
 
 
   methods: {
-    // 构建重定向地址
-    buildRedirectUrlWithTicket() {
+    init() {
       let params = { redirect: this.redirect }
-      buildRedirectUrl(params).then(res => {
+      createTicket(params).then(res => {
         // 用户未登录，则停留在当前登录页
         if (res.code != 200) {
           this.showHtml = true
@@ -124,7 +124,7 @@ export default {
         if (res.code == 200) {
           setToken(res.data)
           // FIXME 登录成功之后是刷新当前页面
-          setTimeout(() => location.reload())
+          location.reload()
         } else {
           this.$message.warning(res.msg)
         }

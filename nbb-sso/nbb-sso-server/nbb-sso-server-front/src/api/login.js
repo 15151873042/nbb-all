@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-
-export function buildRedirectUrl(data) {
+// 获取ticket
+export function createTicket(data) {
   return request({
-    url: '/buildRedirectUrl',
+    url: '/createTicket',
     method: 'get',
     params: data,
   })
@@ -19,40 +19,18 @@ export function doLogin(data) {
   })
 }
 
-// 注册方法
-export function register(data) {
+// 单点注销
+export function signout(data) {
   return request({
-    url: '/register',
-    headers: {
-      isToken: false
-    },
-    method: 'post',
-    data: data
-  })
-}
-
-// 获取用户详细信息
-export function getInfo() {
-  return request({
-    url: '/getInfo',
-    method: 'get'
-  })
-}
-
-
-// 获取验证码
-export function getCodeImg() {
-  return request({
-    url: '/captchaImage',
-    headers: {
-      isToken: false
-    },
+    url: '/signout',
     method: 'get',
+    params: data,
     timeout: 20000
   })
 }
 
-// 首页
+
+// 首页获取数据接口
 export function index() {
   return request({
     url: '/index',
@@ -64,11 +42,3 @@ export function index() {
   })
 }
 
-export function signout(data) {
-  return request({
-    url: '/signout',
-    method: 'get',
-    params: data,
-    timeout: 20000
-  })
-}
