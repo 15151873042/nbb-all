@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 级别从高到低 OFF 、 FATAL 、 ERROR 、 WARN 、 INFO 、 DEBUG 、 TRACE 、 ALL -->
+<!--
+概念区分：
+    1、代码中的日志输出级别：表明"====test===="字符串会以debug级别输出
+        logger.debug("====test====");
+    2、指定包的日志输出级别：表明com.hp包以及子包下代码中日志输出级别为info以上(包含info)的才会被输出到日志输出流
+        <logger name="com.hp">
+            <level value="info" />
+        </logger>
+    3、日志输出地日志滤级别过滤：日志输出流中的日志包含各种等级，限制输出到D:/logs/boot-demo.error.log路径下的日志在error以上
+        <appender>
+            <filter>
+                <level>error</lvevl>
+            </filter>
+            <file>D:/logs/boot-demo.error.log</file>
+        </appender>
+ -->
+
+
+<!--
+appender是负责写日志的组件，主要用于指定日志输出的目的地，目的地可以是控制台、文件、远程套接字服务器、MySQL和其他数据库、JMS和远程UNIX Syslog守护进程等。
+    1)ConsoleAppender: 把日志打印到控制台
+    2)FileAppender: 把日志输出到文件
+    3)RollingFileAppender: 滚动记录地把日志输出到文件, 也就是可以支持日志文件按文件大小拆分,或者按日期拆分
+ -->
+
+<!--
+    1)ThresholdFilter: 临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝
+-->
+
+
+<!-- scan 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 -->
+<!-- scanPeriod 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
+<!-- debug 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
+
+    <!-- 日志名称 -->
+    <springProperty scope="context" name="log.app_name" source="spring.application.name"/>
+
+
+
+    <!-- 日志输出格式 -->
+    <property name="log.pattern"
+              value="%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n"></property>
+    <!-- 日志输出位置 -->
+    <property name="log.home_dir" value="d:/logs"></property>
+    <!-- 日志最大保留天数 -->
+    <property name="log.max_history" value="30"></property>
+    <!-- 日志文件最大的大小 -->
+    <property name="log.max_size" value="500MB"></property>
+
+    <!-- 日志输出位置:控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 过滤器，过滤掉不是指定日志水平的日志 -->
+            <level>DEBUG</level>
+        </filter>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid] [%thread] %-5level %logger{36} -%msg%n</Pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+
+    <appender name="grpc-log" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{tid}] [%thread] %-5level %logger{36} -%msg%n</Pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+
+    <!-- 日志输出位置:磁盘（包含所有级别） -->
+    <appender name="file-all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${log.home_dir}/${log.app_name}-all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home_dir}/${log.app_name}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>${log.max_size}</maxFileSize>
+            <maxHistory>${log.max_history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid] [%thread] %-5level %logger{36} -%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 日志输出位置:磁盘（只包含错误级别） -->
+    <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>${log.home_dir}/${log.app_name}-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home_dir}/${log.app_name}-error.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>${log.max_size}</maxFileSize>
+            <maxHistory>${log.max_history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+
+
+
+
+    <!-- 定义指定包的日志输出级别 -->
+    <logger name="ch.qos.logback">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="org.apache">
+        <level value="warn"/>
+    </logger>
+
+    <!-- 定义spring的输入级别为warn， 此配置优先于root， 即使root中设置全局输出级别为debug，spring也只会输出info -->
+    <logger name="org.springframework">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="org.mybatis.spring">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="com.alibaba.druid">
+        <level value="debug"/>
+    </logger>
+
+    <logger name="org.springframework.jdbc.datasource">
+        <level value="warn"/>
+    </logger>
+    <logger name="org.mybatis.spring.SqlSessionUtils">
+        <level value="debug"/>
+    </logger>
+
+
+    <logger name="com.nbb">
+        <level value="info"/>
+    </logger>
+
+    <root>
+        <!-- 定义通用包（根）的日志输出级别 -->
+        <level value="info"/>
+        <!-- 需要输出到哪些位置 -->
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="file-all"/>
+        <appender-ref ref="file-error"/>
+    </root>
+</configuration>
