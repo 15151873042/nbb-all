@@ -20,6 +20,15 @@ import org.springframework.web.client.RestTemplate;
 public class SkyWalkingProductApplication {
 
 
+    /**
+     * 项目启动，添加如下参数，用于接入skyWalking agent
+     * <pre>
+     * -javaagent:E:\server\skywalking\apache-skywalking-apm-bin-es7\agent\skywalking-agent.jar
+     * -Dskywalking.agent.service_name=skyWalking-product
+     * -Dskywalking.collector.backend_service=127.0.0.1:11800
+     * </pre>
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(SkyWalkingProductApplication.class, args);
     }
@@ -32,8 +41,9 @@ public class SkyWalkingProductApplication {
 
         @RequestMapping("/echo/{string}")
         public String echo(@PathVariable String string) {
-            Object o = redisTemplate.opsForValue().get(string);
-            System.out.println(o.toString());
+            /// 模拟出错
+//            Object o = redisTemplate.opsForValue().get(string);
+//            System.out.println(o.toString());
             log.info("====我是order服务，我被调用了====");
             return "Hello Nacos Discovery " + string;
         }

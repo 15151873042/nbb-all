@@ -24,6 +24,15 @@ public class SkyWalkingOrderApplication {
         return new RestTemplate();
     }
 
+    /**
+     * 项目启动，添加如下参数，用于接入skyWalking agent
+     * <pre>
+     * -javaagent:E:\server\skywalking\apache-skywalking-apm-bin-es7\agent\skywalking-agent.jar
+     * -Dskywalking.agent.service_name=skyWalking-order
+     * -Dskywalking.collector.backend_service=127.0.0.1:11800
+     * </pre>
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(SkyWalkingOrderApplication.class, args);
     }
