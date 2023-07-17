@@ -13,6 +13,7 @@
         <module>nbb-cloud-nacos-config-example</module>
         <module>nbb-cloud-nacos-discovery-example</module>
         <module>nbb-cloud-skyWalking</module>
+        <module>nbb-cloud-openFeign</module>
     </modules>
 
     <properties>
