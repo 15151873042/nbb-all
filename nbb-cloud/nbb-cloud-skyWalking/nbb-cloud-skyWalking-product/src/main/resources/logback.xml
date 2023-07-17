@@ -64,7 +64,7 @@ appender是负责写日志的组件，主要用于指定日志输出的目的地
         </encoder>
     </appender>
 
-
+    <!-- 输出日志到skyWalking服务端 -->
     <appender name="grpc-log" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout">
@@ -108,10 +108,6 @@ appender是负责写日志的组件，主要用于指定日志输出的目的地
     </appender>
 
 
-
-
-
-
     <!-- 定义指定包的日志输出级别 -->
     <logger name="ch.qos.logback">
         <level value="warn"/>
@@ -151,6 +147,7 @@ appender是负责写日志的组件，主要用于指定日志输出的目的地
         <level value="info"/>
         <!-- 需要输出到哪些位置 -->
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="grpc-log"/>
         <appender-ref ref="file-all"/>
         <appender-ref ref="file-error"/>
     </root>
