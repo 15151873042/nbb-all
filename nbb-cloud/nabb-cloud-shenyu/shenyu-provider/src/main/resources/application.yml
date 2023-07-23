@@ -1,0 +1,27 @@
+shenyu:
+  register:
+    registerType: nacos # 注册方式为nacos
+    serverLists: http://127.0.0.1:8848 # nacos地址
+    props:
+      username: nacos
+      password: nacos
+      nacosNameSpace: ShenyuRegisterCenter
+  client:
+    springCloud:
+      props:
+        contextPath: /aaa # 从网关走，调用该服务的前缀
+#        isFull: true # 是否代理所有接口（如果为true，nacos服务列表则没有shenyu.register.service.springCloud服务，不知到为什么）
+
+
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: ShenyuRegisterCenter
+        username: nacos
+        password: nacos
+server:
+  port: 8081

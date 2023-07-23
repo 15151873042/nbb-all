@@ -14,7 +14,7 @@ public class PackageApplication {
     }
 
 
-    @RequestMapping("/")
+    @RequestMapping("/123")
     public Object index() {
         return "hello world";
     }

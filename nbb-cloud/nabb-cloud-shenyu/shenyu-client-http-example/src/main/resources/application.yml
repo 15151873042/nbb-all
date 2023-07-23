@@ -1,0 +1,18 @@
+shenyu:
+  register:
+    register-type: http # 注册方式为http
+    server-lists: http://localhost:9095 # shenyu-admin地址
+    props:
+      username: admin #shenyu-admin 账号密码
+      password: 123456
+  client:
+    http:
+      props:
+        contextPath: /ccc
+        appName: http-example
+
+spring:
+  application:
+    name: http-example
+server:
+  port: 8081
