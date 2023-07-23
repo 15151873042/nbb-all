@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class ShenyuProviderApplication {
+public class ShenyuSpringcloudClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShenyuProviderApplication.class, args);
+        SpringApplication.run(ShenyuSpringcloudClientApplication.class, args);
     }
 }

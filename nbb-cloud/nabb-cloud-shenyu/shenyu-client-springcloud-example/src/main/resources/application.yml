@@ -15,7 +15,7 @@ shenyu:
 
 spring:
   application:
-    name: order-service
+    name: springcloud-service
   cloud:
     nacos:
       discovery:
