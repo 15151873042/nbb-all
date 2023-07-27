@@ -78,14 +78,14 @@ public class MessageReceiverComponent {
     }
 
 
-    // 设置消费的队列名称
-    @RabbitListener(queues = {"queue.log.dead"})
-    public void consumerLogError(Message message, Channel channel) throws Exception {
-        long deliveryTag = message.getMessageProperties().getDeliveryTag();
-
-        logger.info("messageProperties:-------{}", message.toString());
-        // 签收消息
-        channel.basicAck(deliveryTag, false);
-    }
+//    // 设置消费的队列名称
+//    @RabbitListener(queues = {"queue.log.dead"})
+//    public void consumerLogError(Message message, Channel channel) throws Exception {
+//        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+//
+//        logger.info("messageProperties:-------{}", message.toString());
+//        // 签收消息
+//        channel.basicAck(deliveryTag, false);
+//    }
 
 }

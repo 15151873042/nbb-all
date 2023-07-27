@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class LogServiceImpl implements LogService {
     @Override
     public ExecuteResult<Void> addSave() {
-        return new ExecuteResult<>();
+        throw new RuntimeException();
+//        return new ExecuteResult<>();
     }
 }

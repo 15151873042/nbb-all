@@ -20,7 +20,7 @@ spring:
         # 设置消费线程的最大并发数
         max-concurrency: 1
         # 一个通道最多能消费的unacked messages数目
-        prefetch: 10
+        prefetch: 1
   redis:
     host: 127.0.0.1
     port: 6379
