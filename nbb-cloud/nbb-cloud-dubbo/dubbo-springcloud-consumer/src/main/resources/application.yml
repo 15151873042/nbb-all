@@ -1,0 +1,25 @@
+server:
+  port: 9000
+
+
+dubbo:
+  #Dubbo服务暴露的协议配置，其中子属性name为协议名称，port为协议端口（-1 表示自增端口，从 20880 开始）
+  protocol:
+    name: dubbo
+    port: -1
+  cloud:
+    #表示要订阅服务的服务名，可以配置'*'代表订阅所有服务（不推荐使用）。若需订阅多应用，使用","分割。
+    subscribed-services: '*'
+
+spring:
+  application:
+    name: dubbo-springcloud-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+        namespace: dubbo
+        # 消费者可以不用注册到注册中心，只要配置注册中心地址那数据即可
+        register-enabled: false

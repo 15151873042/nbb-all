@@ -1,0 +1,16 @@
+server:
+  port: 8000
+
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://127.0.0.1:8848?username=nacos&password=nacos
+    parameters:
+      namespace: dubbo
+
+spring:
+  application:
+    name: dubbo-springboot-consumer
