@@ -35,7 +35,9 @@ appender是负责写日志的组件，主要用于指定日志输出的目的地
 <!-- debug 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 
 <configuration debug="false" scan="true" scanPeriod="60 seconds">
-    <!-- 自定义属性 -->
+    <!-- 日志名称 -->
+    <springProperty scope="context" name="log.app_name" source="spring.application.name"/>
+
     <!-- 日志输出格式 -->
     <property name="log.pattern"
               value="%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n"></property>
@@ -63,9 +65,9 @@ appender是负责写日志的组件，主要用于指定日志输出的目的地
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
         </filter>
-        <file>${log.home_dir}/boot-demo-all.log</file>
+        <file>${log.home_dir}/${log.app_name}-all.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.home_dir}/boot-demo-all.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <fileNamePattern>${log.home_dir}/${log.app_name}-all.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <maxFileSize>${log.max_size}</maxFileSize>
             <maxHistory>${log.max_history}</maxHistory>
         </rollingPolicy>
@@ -80,9 +82,9 @@ appender是负责写日志的组件，主要用于指定日志输出的目的地
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
-        <file>${log.home_dir}/boot-demo-error.log</file>
+        <file>${log.home_dir}/${log.app_name}-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.home_dir}/boot-demo-error.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <fileNamePattern>${log.home_dir}/${log.app_name}-error.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <maxFileSize>${log.max_size}</maxFileSize>
             <maxHistory>${log.max_history}</maxHistory>
         </rollingPolicy>
