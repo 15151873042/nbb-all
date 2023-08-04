@@ -20,6 +20,6 @@ spring:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
-        namespace: dubbo
+        namespace: dubboDemo
         # 消费者可以不用注册到注册中心，只要配置注册中心地址那数据即可
         register-enabled: false

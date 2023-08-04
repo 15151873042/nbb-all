@@ -9,6 +9,7 @@ shenyu:
   client:
     springCloud:
       props:
+        host: 127.0.0.1 # 当前服务的ip，多网卡环境，最好指定
         contextPath: /aaa # 从网关走，调用该服务的前缀
 #        isFull: true # 是否代理所有接口（如果为true，nacos服务列表则没有shenyu.register.service.springCloud服务，不知到为什么）
 

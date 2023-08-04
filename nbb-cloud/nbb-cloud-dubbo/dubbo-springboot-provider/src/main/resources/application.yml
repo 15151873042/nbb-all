@@ -9,7 +9,10 @@ dubbo:
   registry:
     address: nacos://127.0.0.1:8848?username=nacos&password=nacos
     parameters:
-      namespace: dubbo
+      namespace: dubboDemo
+    # 测试dubbo调用策略
+#  application:
+#    owner: hupeng
 
 spring:
   application:
