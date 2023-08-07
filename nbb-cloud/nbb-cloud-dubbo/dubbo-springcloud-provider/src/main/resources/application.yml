@@ -10,6 +10,11 @@ dubbo:
   registry:
     #Dubbo服务注册中心的配置地址，它的值spring-cloud://xxxx表示挂载到Spring Cloud注册中心，不配置的话会提示没有配置注册中心的错误。
     address: spring-cloud://
+#  # 元数据中心地址
+#  metadata-report:
+#    address: nacos://127.0.0.1:8848?username=nacos&password=nacos
+#    parameters:
+#      namespace: dubboDemo
 
 
 spring:
