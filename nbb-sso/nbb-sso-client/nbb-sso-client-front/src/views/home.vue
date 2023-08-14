@@ -3,6 +3,7 @@
   <div>
     <h2>电商首页</h2>
     <p>当前是否登录：<b>{{isLogin}}</b></p>
+    <p v-if="loginUserInfo">当前登录用户姓名：{{loginUserInfo.userInfo.userName}}</p>
     <el-button type="primary" size="medium" @click="toLoginView">你好，请登录</el-button>
     <el-button type="success" size="medium" @click="toOrderView">我的订单</el-button>
     <el-button type="warning" size="medium" @click="logout1">登出（方式1）</el-button>
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import {isLogin} from "@/api/login";
+import {getLoginUserInfo} from "@/api/login";
 import {getToken, removeToken} from "@/utils/auth";
 
 export default {
@@ -26,18 +27,24 @@ export default {
       // 通过sso-server-backend登出（引导到sso-server-front注销页面）
       ssoServerBackendLogoutUrl: process.env.VUE_APP_SSO_SERVER_FRONT_SIGNOUT_URL + '?back=' + encodeURIComponent(location.href),
       // 是否登录
-      isLogin: false
+      isLogin: false,
+      // 当前登录用户信息
+      loginUserInfo: undefined,
     }
   },
   created() {
-    this.checkIsLogin()
+    this.getLoginUserInfo()
   },
 
   methods: {
-    // 查询当前会话是否登录
-    checkIsLogin() {
-      isLogin().then(res => {
-        this.isLogin = res.data
+
+    // 获取当前登录用户信息
+    getLoginUserInfo() {
+      getLoginUserInfo().then(res => {
+        if (res.data) {
+          this.loginUserInfo = res.data
+          this.isLogin = true;
+        }
       })
     },
 

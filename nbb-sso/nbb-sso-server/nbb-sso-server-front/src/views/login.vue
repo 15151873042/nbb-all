@@ -10,7 +10,6 @@
             placeholder="账号"
             prefix-icon="el-icon-user"
         >
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -35,9 +34,6 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
-        </div>
       </el-form-item>
     </el-form>
     <!--  底部  -->
@@ -49,7 +45,7 @@
 
 <script>
 
-import {createTicket, doLogin} from "../api/login";
+import {checkIsLoginAndCreateTicket, doLogin} from "../api/login";
 import {isNotBlank} from "@/utils/ruoyi";
 import {setToken} from "@/utils/auth";
 
@@ -67,12 +63,18 @@ export default {
 
   data() {
     return {
-      showHtml: false,
-      codeUrl: "",
+      // 用户登录之后需要重定向的地址，从vue路由queryParam中获取
+      redirect: undefined,
+      // 用户名密码
       loginForm: {
         username: "hp",
         password: "hp",
       },
+      // 当前登录页是否显示的标识
+      // 为什么要有此参数，如果没有此参数，用户已登录之后，在其它系统跳转到此页面下放ticket的时候，页面会有一瞬间的显示登录页之后，然后跳转到其它系统
+      showHtml: false,
+      // 当前正在登录loading的标识
+      loading: false,
       loginRules: {
         username: [
           { required: true, trigger: "blur", message: "请输入您的账号" }
@@ -81,12 +83,8 @@ export default {
           { required: true, trigger: "blur", message: "请输入您的密码" }
         ],
       },
-      loading: false,
-      // 验证码开关
-      captchaEnabled: true,
-      // 注册开关
-      register: false,
-      redirect: undefined
+
+
     };
   },
 
@@ -98,9 +96,9 @@ export default {
   methods: {
     init() {
       let params = { redirect: this.redirect }
-      createTicket(params).then(res => {
+      checkIsLoginAndCreateTicket(params).then(res => {
         // 用户未登录，则停留在当前登录页
-        if (res.code != 200) {
+        if (res.code == 402) {
           this.showHtml = true
           return;
         }

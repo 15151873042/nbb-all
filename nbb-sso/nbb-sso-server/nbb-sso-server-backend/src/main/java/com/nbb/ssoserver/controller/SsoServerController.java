@@ -5,10 +5,12 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.sso.SaSsoProcessor;
 import cn.dev33.satoken.sso.SaSsoUtil;
+import cn.dev33.satoken.sso.name.ParamName;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.nbb.ssoserver.pojo.LoginDTO;
 import com.nbb.ssoserver.pojo.LoginUser;
+import com.nbb.ssoserver.pojo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -124,16 +126,14 @@ public class SsoServerController {
     @RequestMapping("/userInfo")
     public Object userInfo() {
         SaSsoUtil.checkSign(SaHolder.getRequest()); // 签名校验
-
-        SaSession session = StpUtil.getSession();
-        LoginUser userInfo = (LoginUser) session.get(SaSession.USER);
+        String loginId = SaHolder.getRequest().getParam("loginId"); // 从请求中获取userId
+        SaSession session = StpUtil.getSessionByLoginId(loginId); // 通过userId获取其对应的session信息
+        LoginUser loginUser = (LoginUser) session.get(SaSession.USER);
         List<String> permissons = (List<String>)session.get(SaSession.PERMISSION_LIST);
         List<String> roles = (List<String>)session.get(SaSession.ROLE_LIST);
 
-        return SaResult.ok()
-                .set("userInfo", userInfo)
-                .set("permissons", permissons)
-                .set("roles", roles);
+        UserInfoVO userInfo = new UserInfoVO(loginUser, permissons, roles);
+        return SaResult.data(userInfo);
     }
 
 

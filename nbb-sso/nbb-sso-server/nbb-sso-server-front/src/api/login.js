@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-// 获取ticket
-export function createTicket(data) {
+// 校验是否登录，登录则下放ticket
+export function checkIsLoginAndCreateTicket(data) {
   return request({
     url: '/createTicket',
     method: 'get',

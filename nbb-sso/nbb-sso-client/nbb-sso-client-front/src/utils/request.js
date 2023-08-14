@@ -18,6 +18,11 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
+
+    if (getToken()) {
+        config.headers['token'] = getToken()
+    }
+
     // get请求映射params参数，逐层解析
     if (config.method === 'get' && config.params) {
         let url = config.url + '?' + tansParams(config.params);
@@ -43,6 +48,7 @@ service.interceptors.response.use(res => {
     if (code == 401) {
         let currentUrl = location.href
         location.href = `/login?back=${currentUrl}`
+        return Promise.reject(new Error("用户未登录"))
     } else if (code === 500) {
         Message({message: msg, type: 'error'})
         return Promise.reject(new Error(msg))

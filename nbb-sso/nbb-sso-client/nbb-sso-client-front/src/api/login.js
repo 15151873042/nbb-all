@@ -8,6 +8,13 @@ export function isLogin() {
   })
 }
 
+export function getLoginUserInfo() {
+  return request({
+    url: '/sso/userInfo',
+    method: 'get',
+  })
+}
+
 // 获取sso-server认证中心地址
 export function getSsoServerLoginUrl(data) {
   return request({
