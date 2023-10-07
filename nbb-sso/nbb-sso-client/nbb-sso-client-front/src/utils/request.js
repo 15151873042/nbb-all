@@ -12,7 +12,7 @@ const service = axios.create({
     timeout: 10000, // 超时
     headers: {
         "Content-Type": "application/json;charset=utf-8",
-        [tokenName] : getToken() // FIXME 对象的key值使用变量要用此方式[]
+        // [tokenName] : getToken() // FIXME 对象的key值使用变量要用此方式[]
     }
 })
 
@@ -20,7 +20,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
 
     if (getToken()) {
-        config.headers['token'] = getToken()
+        config.headers[tokenName] = getToken()
     }
 
     // get请求映射params参数，逐层解析
@@ -47,7 +47,7 @@ service.interceptors.response.use(res => {
 
     if (code == 401) {
         let currentUrl = location.href
-        location.href = `/login?back=${currentUrl}`
+        location.href = '/login?back=' + encodeURIComponent(currentUrl)
         return Promise.reject(new Error("用户未登录"))
     } else if (code === 500) {
         Message({message: msg, type: 'error'})

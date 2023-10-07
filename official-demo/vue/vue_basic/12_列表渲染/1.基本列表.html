@@ -6,7 +6,7 @@
 		<script type="text/javascript" src="../js/vue.js"></script>
 	</head>
 	<body>
-		<!-- 
+		<!--
 				v-for指令:
 						1.用于展示列表数据
 						2.语法：v-for="(item, index) in xxx" :key="yyy"
@@ -25,7 +25,7 @@
 			<!-- 遍历对象 -->
 			<h2>汽车信息（遍历对象）</h2>
 			<ul>
-				<li v-for="(value,k) of car" :key="k">
+				<li v-for="(value,k) in car" :key="k">
 					{{k}}-{{value}}
 				</li>
 			</ul>
@@ -37,7 +37,7 @@
 					{{char}}-{{index}}
 				</li>
 			</ul>
-			
+
 			<!-- 遍历指定次数 -->
 			<h2>测试遍历指定次数（用得少）</h2>
 			<ul>
@@ -49,7 +49,7 @@
 
 		<script type="text/javascript">
 			Vue.config.productionTip = false
-			
+
 			new Vue({
 				el:'#root',
 				data:{

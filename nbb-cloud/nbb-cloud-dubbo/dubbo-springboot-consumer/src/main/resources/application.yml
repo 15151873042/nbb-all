@@ -1,6 +1,5 @@
 server:
-  port: 8000
-
+  port: 7000
 
 dubbo:
   protocol:
@@ -10,11 +9,11 @@ dubbo:
     address: nacos://127.0.0.1:8848?username=nacos&password=nacos
     parameters:
       namespace: dubboDemo
-#  # 指定dubbo调用策略
-#  consumer:
-#    loadbalance: sameOwnerPriority
-#  application:
-#    owner: 8100
+  # 指定dubbo调用策略
+  consumer:
+    loadbalance: sameOwnerPriority
+  application:
+    owner: hupeng
 
 spring:
   application:

@@ -1,0 +1,45 @@
+server:
+  port: 7070
+spring:
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
+  jackson:
+    # json序列化时，属性值为null的字段不序列化
+    default-property-inclusion: non_null
+    # Date类型默认序列化格式
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/vue_template?autoReconnect=true&useSSL=false&allowMultiQueries=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    database: 15
+    host: 127.0.0.1
+    port: 6379
+    password: root
+
+
+sa-token:
+  # 登录用户持续30分钟没有操作系统，token就失效
+  activity-timeout: 1800
+  # 是否尝试从 cookie 里读取 Token，此值为 false 后，StpUtil.login(id) 登录时也不会再往前端注入Cookie
+  is-read-cookie: false
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 15
+    host: 127.0.0.1
+    port: 6379
+    password: root
+    timeout: 10s
+
+
+mybatis-plus:
+  type-aliases-package: com.nbb.domain
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+

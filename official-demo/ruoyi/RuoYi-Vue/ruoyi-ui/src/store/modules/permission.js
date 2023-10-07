@@ -38,6 +38,8 @@ const permission = {
           const rdata = JSON.parse(JSON.stringify(res.data))
           const sidebarRoutes = filterAsyncRouter(sdata)
           const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+          console.log('rewriteRoutes', JSON.stringify(rewriteRoutes))
+          console.log('sidebarRoutes', JSON.stringify(sidebarRoutes))
           const asyncRoutes = filterDynamicRoutes(dynamicRoutes);
           rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
           router.addRoutes(asyncRoutes);

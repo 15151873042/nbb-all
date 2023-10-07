@@ -53,7 +53,11 @@ export default {
         if (res.code == 200) {
           console.log('ticket登录成功')
           setToken(res.data)
-          location.href = decodeURIComponent(this.back);
+          if (this.back) {
+            location.href = decodeURIComponent(this.back);
+          } else {
+            this.$router.push({name: 'home'})
+          }
         } else {
           this.$message.error(res.msg)
         }

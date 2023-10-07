@@ -5,12 +5,16 @@ import cn.dev33.satoken.sso.SaSsoProcessor;
 import cn.dev33.satoken.sso.SaSsoUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.nbb.pojo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/sso")
@@ -50,6 +54,10 @@ public class SsoClientController {
     // 构建sso-server认证中心地址
     @RequestMapping("getSsoServerLoginUrl")
     public SaResult getSsoServerLoginUrl(String ssoClientLoginUrl) {
+        // ssoClientLoginUrl中没有back参数时的默认back参数
+        HashMap<String, String> urlParamMap = HttpUtil.decodeParamMap(ssoClientLoginUrl, "UTF-8");
+
+        String defaultBackUrl = "http://sso-client.com:8000/home";
         String ssoServerLoginUrl = SaSsoUtil.buildServerAuthUrl(ssoClientLoginUrl, "");
         return SaResult.data(ssoServerLoginUrl);
     }

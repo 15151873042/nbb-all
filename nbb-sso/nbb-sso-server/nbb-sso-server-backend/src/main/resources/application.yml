@@ -1,16 +1,6 @@
 server:
   port: 9100
 
-spring:
-  # redis配置
-  redis:
-    database: 15
-    host: 127.0.0.1
-    port: 6379
-    password: root
-    timeout: 10s
-
-
 sa-token:
   sso:
     # (模式三)打开
@@ -25,3 +15,19 @@ sa-token:
   activity-timeout: 1800
   # 是否尝试从 cookie 里读取 Token，此值为 false 后，StpUtil.login(id) 登录时也不会再往前端注入Cookie
   is-read-cookie: false
+  # 配置 Sa-Token 单独使用的 Redis 连接
+  alone-redis:
+    database: 13
+    host: 127.0.0.1
+    port: 6379
+    password: root
+    timeout: 10s
+
+#spring:
+#  # redis配置
+#  redis:
+#    database: 14
+#    host: 127.0.0.1
+#    port: 6379
+#    password: root
+#    timeout: 10s

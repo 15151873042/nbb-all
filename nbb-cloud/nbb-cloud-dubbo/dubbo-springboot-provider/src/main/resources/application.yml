@@ -1,18 +1,17 @@
 server:
-  port: 8100
-
+  port: 7200
 
 dubbo:
   protocol:
     name: dubbo
     port: -1
+#    host: 10.2.98.60
   registry:
     address: nacos://127.0.0.1:8848?username=nacos&password=nacos
     parameters:
       namespace: dubboDemo
-    # 测试dubbo调用策略
-#  application:
-#    owner: hupeng
+  application:
+    owner: zs
 
 spring:
   application:
