@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
 public class FeignConsumerController {
 
@@ -22,7 +24,6 @@ public class FeignConsumerController {
     public Object getProductDetail(@PathVariable("id") String id) {
         Object result1 = productApi.test(id);
         Object result2 = productApi2.test(id);
-        System.out.println(result1 == result2);
         return result1;
     }
 
