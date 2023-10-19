@@ -1,15 +1,16 @@
 package com.nbb.config;
 
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.stp.StpUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.nbb.framework.jackson.LongToStringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Iterator;
@@ -41,6 +42,13 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter(httpMessageObjectMapper);
         converters.add(mappingJackson2HttpMessageConverter);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 注册sa-token拦截器，处理login接口，其余所有接口都需要登录认证
+        SaInterceptor saInterceptor = new SaInterceptor(handle -> StpUtil.checkLogin());
+        registry.addInterceptor(saInterceptor).addPathPatterns("/**").excludePathPatterns("/login");
     }
 
 }

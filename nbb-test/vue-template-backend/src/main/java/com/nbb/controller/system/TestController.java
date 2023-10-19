@@ -15,15 +15,16 @@ import java.util.Map;
 @RequestMapping("/test")
 public class TestController {
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public SaResult test(@RequestBody TestDTO dto) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("localDate", LocalDate.now());
-        map.put("localDateTime", LocalDateTime.now());
-        map.put("date", dto.getDate());
-        map.put("Long", Long.MAX_VALUE);
-        map.put("long", Long.MIN_VALUE);
-        map.put("long2", 1000L);
-        return SaResult.data(map);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("localDate", LocalDate.now());
+//        map.put("localDateTime", LocalDateTime.now());
+//        map.put("date", dto.getDate());
+//        map.put("Long", Long.MAX_VALUE);
+//        map.put("long", Long.MIN_VALUE);
+//        map.put("long2", 1000L);
+//        return SaResult.data(map);
+        return SaResult.error("cccc");
     }
 }
