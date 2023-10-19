@@ -21,9 +21,11 @@ public class JacksonConfig {
             jacksonObjectMapperBuilder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
             jacksonObjectMapperBuilder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
 
-            // 将超过16位的long，Long类型转换成String，已避免前端精度丢失
-            jacksonObjectMapperBuilder.serializerByType(Long.class, new LongToStringSerializer());
-            jacksonObjectMapperBuilder.serializerByType(Long.TYPE, new LongToStringSerializer());
+            /// FIXME 由于这里是全局配置的ObjectMapper，当配置Long转String的时候，redis json序列化的时候由于类型转换会报错，所以以下配置只配置在MappingJackson2HttpMessageConverter
+//            // 将超过16位的long，Long类型转换成String，已避免前端精度丢失
+//            jacksonObjectMapperBuilder.serializerByType(Long.class, new LongToStringSerializer());
+//            jacksonObjectMapperBuilder.serializerByType(Long.TYPE, new LongToStringSerializer());
+
         };
     }
 }

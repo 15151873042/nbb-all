@@ -7,6 +7,7 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
       time: HH:mm:ss
   jackson:
+    time-zone: GMT+8
     # json序列化时，属性值为null的字段不序列化
     default-property-inclusion: non_null
     # Date类型默认序列化格式

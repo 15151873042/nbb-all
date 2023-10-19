@@ -22,19 +22,12 @@ public class Demo {
     @Test
     public void testInsert() {
         SysUser sysUser = new SysUser();
-        sysUser.setId(10L);
         sysUser.setUserName("ls");
         sysUser.setPassword("ls");
         userService.save(sysUser);
     }
 
     public static void main(String[] args) throws JsonProcessingException {
-        String json = "{\n" +
-                "    \"date\":\"2023-10-07\",\n" +
-                "    \"datetime\": \"2023-10-01\"\n" +
-                "}";
-        ObjectMapper objectMapper = new ObjectMapper();
-        TestDTO testDTO = objectMapper.readValue(json, TestDTO.class);
-        System.out.println(testDTO);
+        System.out.println(Long.MAX_VALUE);
     }
 }
