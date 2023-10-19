@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "feign-provider", fallback = MyFallback.class)
+// value相同时，通过contexId标识当前bean名称
+@FeignClient(value = "feign-provider", contextId = "feign-provider-1", fallback = MyFallback.class)
 public interface MyFeignClient {
 
     @RequestMapping("/test/{id}")
