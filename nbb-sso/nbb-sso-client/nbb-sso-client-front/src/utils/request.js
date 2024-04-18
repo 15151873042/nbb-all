@@ -48,6 +48,8 @@ service.interceptors.response.use(res => {
     if (code == 401) {
         let currentUrl = location.href
         location.href = '/login?back=' + encodeURIComponent(currentUrl)
+        // FIXME 如果路由是hash模式，需要用下面这种方式， location.pathname为前端项目路径前缀
+        // location.href = location.origin + location.pathname + '#/sso?back=' + encodeURIComponent(currentUrl)
         return Promise.reject(new Error("用户未登录"))
     } else if (code === 500) {
         Message({message: msg, type: 'error'})
